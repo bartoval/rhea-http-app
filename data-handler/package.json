@@ -1,0 +1,19 @@
+{
+  "name": "data-handler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "author": "Valerio Bartolini",
+  "license": "",
+  "dependencies": {
+    "express": "^4.17.2",
+    "promise": "^8.1.0",
+    "rhea": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

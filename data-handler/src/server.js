@@ -1,12 +1,14 @@
 const express = require('express');
 const Promise = require('promise');
+const cors = require('cors');
 const rheaAdapter = require('./rheaAdapter.js');
 
 const app = express();
 
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3002);
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('')

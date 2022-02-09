@@ -9,6 +9,7 @@
   "author": "Valerio Bartolini",
   "license": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.2",
     "promise": "^8.1.0",
     "rhea": "^3.0.0"

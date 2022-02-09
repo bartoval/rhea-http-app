@@ -1,47 +1,50 @@
-const http = require('http');
-const container = require('rhea');
-const notes = require('./notes.js');
+const express = require('express');
+const Promise = require('promise');
+const cors = require('cors');
+const rheaAdapter = require('./rheaAdapter.js');
 
-let sender = null;
+const app = express();
 
-container.on('connection_open', function (context) {
-  sender = connection.open_sender('to_client');
-  connection.open_receiver('to_database');
+
+app.set('port', process.env.PORT || 3002);
+app.use(express.json());
+app.use(cors());
+
+app.get('/', (req, res) => {
+  res.send('')
+})
+
+app.get('/notes', (req, res) => {
+  send("list")
+  rheaAdapter.respond(res).then(message => res.json(message))
+})
+
+app.get('/notes/:id', (req, res) => {
+  send("read", { id: req.params.id })
+  rheaAdapter.respond().then(message => res.json(message))
+})
+
+app.post('/notes', (req, res) => {
+  send("create", req.body)
+  rheaAdapter.respond().then(message => res.json(message))
+})
+
+app.put('/notes/:id', (req, res) => {
+  send("update", { id: req.params.id, ...req.body })
+  rheaAdapter.respond().then(message => res.json(message))
+})
+
+app.delete('/notes/:id', (req, res) => {
+  send("delete", { id: req.params.id })
+  rheaAdapter.respond().then(message => res.json(message))
+})
+
+app.listen(app.get('port'), () => {
+  console.log(`Server listening on port ${app.get('port')}`);
 });
 
-container.on('message', function ({ message: { body } }) {
-  let data = null;
-  const { command, payload } = body
-
-  switch (command) {
-    case 'list':
-      data = notes.listNotes();
-      break;
-    case 'read':
-      data = notes.readNote(payload.id);
-      break;
-    case 'create':
-      notes.addNote(payload.title, payload.body);
-      break;
-    case 'update':
-      const { id, title, body } = payload
-      notes.updateNote(id, title, body);
-      break;
-    case 'delete':
-      data = notes.removeNote(payload.id);
-      break;
-  }
-
-  sender.send({ body: data });
-});
-
-const connection = container.connect({ port: 5672 });
-
-
-const requestListener = function (req, res) {
-  res.writeHead(200);
-  res.end('Hello, World!');
+function send(command, payload) {
+  rheaAdapter
+    .getSender()
+    .send({ body: { command, payload } })
 }
-
-const server = http.createServer(requestListener);
-server.listen(3001);

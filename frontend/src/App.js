@@ -1,6 +1,6 @@
 import React from "react";
-import NoteCreate from "./PostCreate";
-import Notes from "./PostList";
+import NoteCreate from "./NotesCreate";
+import Notes from "./NotesList";
 
 const App = () => {
   return (

@@ -1,26 +1,53 @@
 const container = require('rhea');
 
-let sender = null;
+const MAX_NUMBER_OF_RETRY = 40
+const MAX_DELAY_RETRY = 50
+const LINK_NAME_DATA_MANAGER = 'to_database'
+const LINK_NAME_CLIENT = 'to_client'
+const RHEA_PORT = 'to_client'
+
+let sender = null
+let messageValue = false;
+let retry = 0
 
 container.on('connection_open', function (context) {
-  sender = connection.open_sender('to_database');
-  connection.open_receiver('to_client');
-});
+  sender = connection.open_sender(LINK_NAME_DATA_MANAGER)
+  connection.open_receiver(LINK_NAME_CLIENT)
+})
 
-function respond() {
-  return new Promise(function (resolve, reject) {
-    container.on('message', function ({ message }) {
-      resolve(message.body)
-    });
-  })
+container.on('message', function ({ message }) {
+  messageValue = message.body
+})
+
+const connection = container.connect({ port: RHEA_PORT })
+
+function waitingMessageFromRhea(resolve, reject) {
+  if (retry === MAX_NUMBER_OF_RETRY) {
+    return null
+  }
+
+  if (messageValue !== false) {
+    resolve(messageValue)
+
+    messageValue = false
+    retry = 0
+  } else {
+    retry++
+    setTimeout(waitMessageFromRhea.bind(this, resolve, reject), MAX_DELAY_RETRY)
+  }
+}
+
+/**
+ * Wait for a message from the rhea link event, before resolving the Promise.
+ * @returns Promise
+ */
+const respond = () => {
+  return new Promise(waitingMessageFromRhea)
 }
 
 function getSender() {
   return sender
 }
-
-const connection = container.connect({ port: 5672 });
-
 
 module.exports = {
   respond,

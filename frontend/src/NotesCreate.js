@@ -9,7 +9,6 @@ const NoteCreate = () => {
   const { state } = useLocation();
 
   const handleSubmit = async (event) => {
-    console.log('submit')
     event.preventDefault();
 
     if (state && state.id) {

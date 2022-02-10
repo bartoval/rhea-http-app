@@ -1,14 +1,15 @@
-const express = require('express');
-const Promise = require('promise');
-const cors = require('cors');
-const rheaAdapter = require('./rheaAdapter.js');
+const express = require('express')
+const Promise = require('promise')
+const cors = require('cors')
+const rheaAdapter = require('./rheaAdapter.js')
 
-const app = express();
+const app = express()
 
+const SERVER_PORT_DEFAULT = 3002
 
-app.set('port', process.env.PORT || 3002);
-app.use(express.json());
-app.use(cors());
+app.set('port', process.env.PORT || SERVER_PORT_DEFAULT)
+app.use(express.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('')
@@ -40,8 +41,8 @@ app.delete('/notes/:id', (req, res) => {
 })
 
 app.listen(app.get('port'), () => {
-  console.log(`Server listening on port ${app.get('port')}`);
-});
+  console.log(`Server listening on port ${app.get('port')}`)
+})
 
 function send(command, payload) {
   rheaAdapter

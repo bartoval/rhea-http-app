@@ -2,23 +2,24 @@ import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 
-import { HOST } from "./constants"
+import { API_HOST } from "./environment/constants"
 
 const NoteCreate = () => {
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const navigate = useNavigate()
   const { state } = useLocation()
+  const navigate = useNavigate()
 
-  const handleSubmit = async (event) => {
+  const [title, setTitle] = useState((state && state.title) || '')
+  const [description, setDescription] = useState((state && state.description) || '')
+
+  async function handleSubmit(event) {
     event.preventDefault()
 
     if (state && state.id) {
-      await axios.put(`${HOST}/notes/${state.id}`, {
+      await axios.put(`${API_HOST}/notes/${state.id}`, {
         title, description
       })
     } else {
-      await axios.post(`${HOST}/notes`, {
+      await axios.post(`${API_HOST}/notes`, {
         title, description
       })
     }
@@ -28,9 +29,13 @@ const NoteCreate = () => {
     navigate('/')
   }
 
+  function getTitle() {
+    return state ? `Edit Note (${state.id})` : 'Create a new Note'
+  }
+
   return (
     <div>
-      <h1>Create Note</h1>
+      <h1>{getTitle()}</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">

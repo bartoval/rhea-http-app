@@ -3,14 +3,17 @@ const container = require('rhea')
 const MAX_NUMBER_OF_RETRY = 100
 const MAX_DELAY_RETRY = 50
 const LINK_NAME_DATA_MANAGER = 'note-store'
+const AMQP_PORT = 10000
 
 let sender = null
+var connection;
 var reply_receiver;
 var reply_addr;
 let messageValue = false
 let retry = 0
 
 container.on('connection_open', function (context) {
+  connection = context.connection;
   reply_receiver = connection.open_receiver({source:{dynamic:true}})
 })
 
@@ -26,7 +29,8 @@ container.on('message', function ({ message }) {
   messageValue = message.body
 })
 
-const connection = container.connect()
+const listener = container.listen({port:AMQP_PORT})
+console.log(`Backend interface listening on port ${AMQP_PORT}`);
 
 function waitingMessageFromRhea(resolve, reject) {
   if (retry === MAX_NUMBER_OF_RETRY) {

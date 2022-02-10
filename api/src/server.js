@@ -56,7 +56,6 @@ app.listen(app.get('port'), () => {
 
 function send(command, payload) {
   rheaAdapter
-    .getSender()
     .send({ body: { command, payload } })
 }
 

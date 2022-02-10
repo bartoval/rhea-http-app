@@ -1,20 +1,16 @@
-const http = require('http')
 const container = require('rhea')
 const notes = require('./notes.js')
 
 let sender = null
 
-const SERVER_PORT = process.env.PORT || 3001
-const LINK_NAME_DATA_MANAGER = 'to_database'
-const LINK_NAME_CLIENT = 'to_client'
-const RHEA_PORT = 5672
+const LINK_NAME_DATA_MANAGER = 'note-store'
 
 container.on('connection_open', function (context) {
-  sender = connection.open_sender(LINK_NAME_CLIENT)
+  sender = connection.open_sender()
   connection.open_receiver(LINK_NAME_DATA_MANAGER)
 })
 
-container.on('message', function ({ message: { body } }) {
+container.on('message', function ({ message: { reply_to, body } }) {
   let data = null
   const { command, payload } = body
 
@@ -37,19 +33,10 @@ container.on('message', function ({ message: { body } }) {
       break
   }
 
-  sender.send({ body: data })
+  sender.send({to: reply_to, body: data })
 })
 
-const connection = container.connect({ port: RHEA_PORT })
-
-const requestListener = function (req, res) {
-  res.writeHead(200)
-  res.end('Server created')
-}
-
-const server = http.createServer(requestListener)
-server.listen(SERVER_PORT, () => console.log(`Server Data Manager listening on port ${SERVER_PORT}`)
-)
+const connection = container.connect()
 
 process.on('SIGINT', () => {
   console.log('SIGINT');

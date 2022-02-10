@@ -1,13 +1,13 @@
-const container = require('rhea');
+const container = require('rhea')
 
-const MAX_NUMBER_OF_RETRY = 40
+const MAX_NUMBER_OF_RETRY = 20
 const MAX_DELAY_RETRY = 50
 const LINK_NAME_DATA_MANAGER = 'to_database'
 const LINK_NAME_CLIENT = 'to_client'
-const RHEA_PORT = 'to_client'
+const RHEA_PORT = 5672
 
 let sender = null
-let messageValue = false;
+let messageValue = false
 let retry = 0
 
 container.on('connection_open', function (context) {
@@ -33,7 +33,7 @@ function waitingMessageFromRhea(resolve, reject) {
     retry = 0
   } else {
     retry++
-    setTimeout(waitMessageFromRhea.bind(this, resolve, reject), MAX_DELAY_RETRY)
+    setTimeout(waitingMessageFromRhea.bind(this, resolve, reject), MAX_DELAY_RETRY)
   }
 }
 

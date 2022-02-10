@@ -1,6 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
-const uuid = require('uuid');
+const uuid = require('uuid')
 
 const FILE_PATH = './notes.json'
 

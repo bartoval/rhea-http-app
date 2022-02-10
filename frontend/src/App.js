@@ -1,11 +1,12 @@
-import React from "react";
+import React from "react"
 import {
   BrowserRouter,
   Routes,
   Route
-} from "react-router-dom";
-import NoteCreate from "./NotesCreate";
-import Notes from "./Notes";
+} from "react-router-dom"
+
+import NoteCreate from "./NotesCreate"
+import Notes from "./Notes"
 
 const App = () => {
   return (
@@ -17,6 +18,6 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </div>
-  );
-};
-export default App;
+  )
+}
+export default App

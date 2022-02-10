@@ -1,30 +1,32 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import axios from "axios"
+
+import { HOST } from "./constants"
 
 const NoteCreate = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const navigate = useNavigate();
-  const { state } = useLocation();
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const navigate = useNavigate()
+  const { state } = useLocation()
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (state && state.id) {
-      await axios.put(`http://localhost:3002/notes/${state.id}`, {
+      await axios.put(`${HOST}/notes/${state.id}`, {
         title, description
-      });
+      })
     } else {
-      await axios.post("http://localhost:3002/notes", {
+      await axios.post(`${HOST}/notes`, {
         title, description
-      });
+      })
     }
 
-    setTitle("");
-    setDescription("");
+    setTitle("")
+    setDescription("")
     navigate('/')
-  };
+  }
 
   return (
     <div>
@@ -51,7 +53,7 @@ const NoteCreate = () => {
         <button className="btn btn-primary mt-sm-2">Submit</button>
       </form >
     </div >
-  );
-};
+  )
+}
 
-export default NoteCreate;
+export default NoteCreate

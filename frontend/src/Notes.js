@@ -1,24 +1,26 @@
-import React, { useState, useEffect, } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect, } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+
+import { HOST } from "./constants"
 
 const Notes = () => {
-  const [notes, setNotes] = useState({});
-  const navigate = useNavigate();
+  const [notes, setNotes] = useState({})
+  const navigate = useNavigate()
 
   const fetchNotes = async () => {
-    const res = await axios.get("http://localhost:3002/notes");
-    setNotes(res.data);
-  };
+    const res = await axios.get(`${HOST}/notes`)
+    setNotes(res.data)
+  }
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:3002/notes/${id}`);
-    fetchNotes();
+    await axios.delete(`${HOST}/notes/${id}`)
+    fetchNotes()
   }
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    fetchNotes()
+  }, [])
 
   const renderedNotes = Object.values(notes).map(({ id, title, body }) => {
     return (
@@ -45,8 +47,8 @@ const Notes = () => {
           </button>
         </div>
       </div >
-    );
-  });
+    )
+  })
 
   return (
     <>
@@ -59,7 +61,7 @@ const Notes = () => {
         {renderedNotes}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Notes;
+export default Notes

@@ -41,7 +41,7 @@ app.delete('/notes/:id', (req, res) => {
 })
 
 app.listen(app.get('port'), () => {
-  console.log(`Server listening on port ${app.get('port')}`)
+  console.log(`API Server listening on port ${app.get('port')}`)
 })
 
 function send(command, payload) {
@@ -49,3 +49,8 @@ function send(command, payload) {
     .getSender()
     .send({ body: { command, payload } })
 }
+
+process.on('SIGINT', () => {
+  console.log('SIGINT');
+  process.exit();
+})

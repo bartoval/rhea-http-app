@@ -33,7 +33,7 @@ container.on('message', function ({ message: { body } }) {
       notes.updateNote(id, title, description)
       break
     case 'delete':
-      data = notes.removeNote(payload.id)
+      notes.removeNote(payload.id)
       break
   }
 
@@ -48,5 +48,10 @@ const requestListener = function (req, res) {
 }
 
 const server = http.createServer(requestListener)
-server.listen(SERVER_PORT, () => console.log(`Server listening on port ${SERVER_PORT}`)
+server.listen(SERVER_PORT, () => console.log(`Server Data Manager listening on port ${SERVER_PORT}`)
 )
+
+process.on('SIGINT', () => {
+  console.log('SIGINT');
+  process.exit();
+})

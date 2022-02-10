@@ -60,11 +60,14 @@ const readNote = (id) => {
 const updateNote = (id, title, body) => {
   const notes = loadNotes()
   const noteIndex = notes.findIndex((note) => note.id === id)
-  const note = notes[noteIndex]
-  notes[noteIndex] = { id: note.id, title, body, modified: Date.now() }
 
-  saveNotes(notes)
-  console.log(chalk.green.inverse('Note updated!'))
+  if (noteIndex >= 0) {
+    const note = notes[noteIndex]
+    notes[noteIndex] = { id: note.id, title, body, modified: Date.now() }
+
+    saveNotes(notes)
+    console.log(chalk.green.inverse('Note updated!'))
+  }
 }
 
 const saveNotes = (notes) => {

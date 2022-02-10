@@ -21,11 +21,11 @@ container.on('message', function ({ message: { body } }) {
       data = notes.readNote(payload.id);
       break;
     case 'create':
-      notes.addNote(payload.title, payload.body);
+      notes.addNote(payload.title, payload.description);
       break;
     case 'update':
-      const { id, title, body } = payload
-      notes.updateNote(id, title, body);
+      const { id, title, description } = payload
+      notes.updateNote(id, title, description);
       break;
     case 'delete':
       data = notes.removeNote(payload.id);

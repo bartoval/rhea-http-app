@@ -1,6 +1,6 @@
 const container = require('rhea')
 
-const MAX_NUMBER_OF_RETRY = 20
+const MAX_NUMBER_OF_RETRY = 100
 const MAX_DELAY_RETRY = 50
 const LINK_NAME_DATA_MANAGER = 'to_database'
 const LINK_NAME_CLIENT = 'to_client'
@@ -23,14 +23,11 @@ const connection = container.connect({ port: RHEA_PORT })
 
 function waitingMessageFromRhea(resolve, reject) {
   if (retry === MAX_NUMBER_OF_RETRY) {
-    return null
+    reject({ code: 408, message: 'Request timeout from rhea' })
   }
 
   if (messageValue !== false) {
     resolve(messageValue)
-
-    messageValue = false
-    retry = 0
   } else {
     retry++
     setTimeout(waitingMessageFromRhea.bind(this, resolve, reject), MAX_DELAY_RETRY)
@@ -42,6 +39,8 @@ function waitingMessageFromRhea(resolve, reject) {
  * @returns Promise
  */
 const respond = () => {
+  messageValue = false
+  retry = 0
   return new Promise(waitingMessageFromRhea)
 }
 

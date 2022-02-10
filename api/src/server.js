@@ -17,27 +17,37 @@ app.get('/', (req, res) => {
 
 app.get('/notes', (req, res) => {
   send("list")
-  rheaAdapter.respond(res).then(message => res.json(message))
+  rheaAdapter.respond(res)
+    .then(message => res.json(message))
+    .catch(({ code, message }) => res.status(code).send(message))
 })
 
 app.get('/notes/:id', (req, res) => {
   send("read", { id: req.params.id })
-  rheaAdapter.respond().then(message => res.json(message))
+  rheaAdapter.respond()
+    .then(message => res.json(message))
+    .catch(({ code, message }) => res.status(code).send(message))
 })
 
 app.post('/notes', (req, res) => {
   send("create", req.body)
-  rheaAdapter.respond().then(message => res.json(message))
+  rheaAdapter.respond()
+    .then(message => res.json(message))
+    .catch(({ code, message }) => res.status(code).send(message))
 })
 
 app.put('/notes/:id', (req, res) => {
   send("update", { id: req.params.id, ...req.body })
-  rheaAdapter.respond().then(message => res.json(message))
+  rheaAdapter.respond()
+    .then(message => res.json(message))
+    .catch(({ code, message }) => res.status(code).send(message))
 })
 
 app.delete('/notes/:id', (req, res) => {
   send("delete", { id: req.params.id })
-  rheaAdapter.respond().then(message => res.json(message))
+  rheaAdapter.respond()
+    .then(message => res.json(message))
+    .catch(({ code, message }) => res.status(code).send(message))
 })
 
 app.listen(app.get('port'), () => {

@@ -19,7 +19,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Notes />} />
-            <Route path="/note" element={<NoteCreate />} />
+            <Route path="/rhea/note" element={<NoteCreate />} />
           </Routes>
         </BrowserRouter>
       </div >

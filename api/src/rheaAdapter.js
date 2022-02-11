@@ -2,24 +2,35 @@ const container = require('rhea')
 
 const MAX_NUMBER_OF_RETRY = 100
 const MAX_DELAY_RETRY = 50
-const LINK_NAME_DATA_MANAGER = 'to_database'
-const LINK_NAME_CLIENT = 'to_client'
-const RHEA_PORT = 5672
+const LINK_NAME_DATA_MANAGER = 'note-store'
+const AMQP_PORT = 10000
 
 let sender = null
+var connection;
+var reply_receiver;
+var reply_addr;
 let messageValue = false
 let retry = 0
 
 container.on('connection_open', function (context) {
-  sender = connection.open_sender(LINK_NAME_DATA_MANAGER)
-  connection.open_receiver(LINK_NAME_CLIENT)
+  connection = context.connection;
+  reply_receiver = connection.open_receiver({source:{dynamic:true}})
+})
+
+container.on('receiver_open', function(context) {
+  if (context.receiver == reply_receiver) {
+    reply_addr = context.receiver.source.address;
+    sender = connection.open_sender(LINK_NAME_DATA_MANAGER)
+    console.log(`Reply address: ${reply_addr}`);
+  }
 })
 
 container.on('message', function ({ message }) {
   messageValue = message.body
 })
 
-const connection = container.connect({ port: RHEA_PORT })
+const listener = container.listen({port:AMQP_PORT})
+console.log(`Backend interface listening on port ${AMQP_PORT}`);
 
 function waitingMessageFromRhea(resolve, reject) {
   if (retry === MAX_NUMBER_OF_RETRY) {
@@ -44,11 +55,12 @@ const respond = () => {
   return new Promise(waitingMessageFromRhea)
 }
 
-function getSender() {
-  return sender
+function send(message) {
+  message.reply_to = reply_addr;
+  sender.send(message)
 }
 
 module.exports = {
   respond,
-  getSender
+  send
 }

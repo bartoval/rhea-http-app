@@ -4,6 +4,8 @@ import axios from "axios"
 
 import { API_HOST } from "./environment/constants"
 
+const SET_NOTE_PATH = '/rhea/note'
+
 const Notes = () => {
   const [notes, setNotes] = useState(null)
   const navigate = useNavigate()
@@ -40,7 +42,7 @@ const Notes = () => {
           <button
             type="button"
             className="btn btn-primary"
-            onClick={() => navigate("/note", { state: { id, title, description: body } })}>
+            onClick={() => navigate(SET_NOTE_PATH, { state: { id, title, description: body } })}>
             <i className="bi bi-pencil-fill"></i>
           </button>
           <button
@@ -65,7 +67,7 @@ const Notes = () => {
               <button
                 type="button"
                 className="btn btn-outline-primary mb-3"
-                onClick={() => navigate('/note')}>
+                onClick={() => navigate(SET_NOTE_PATH)}>
                 Create new Note
               </button>
               <div className="d-flex flex-row flex-wrap">
@@ -73,7 +75,7 @@ const Notes = () => {
               </div>
             </>
             : <div className="alert alert-warning text-center" role="alert">
-              <p>Your notes space is empty, <a className="alert-link" href="#" onClick={() => navigate('/note')}>click here to add one</a></p>
+              <p>Your notes space is empty, <a className="alert-link" onClick={() => navigate(SET_NOTE_PATH)}>click here to add one</a></p>
             </div>
         }</>
         : <div className="d-flex justify-content-center">

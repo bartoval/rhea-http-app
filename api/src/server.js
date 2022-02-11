@@ -1,5 +1,6 @@
 const express = require('express')
 const Promise = require('promise')
+const path = require('path');
 const cors = require('cors')
 const rheaAdapter = require('./rheaAdapter.js')
 
@@ -10,9 +11,10 @@ const SERVER_PORT_DEFAULT = 3002
 app.set('port', process.env.PORT || SERVER_PORT_DEFAULT)
 app.use(express.json())
 app.use(cors())
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.send('')
+app.get('/rhea*?', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));;
 })
 
 app.get('/notes', (req, res) => {

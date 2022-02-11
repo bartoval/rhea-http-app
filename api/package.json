@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon --delay 1.0 .",
-    "prod": "node ."
+    "start-dev": "nodemon --delay 1.0 .",
+    "start": "node ."
   },
   "author": "Valerio Bartolini",
   "license": "",

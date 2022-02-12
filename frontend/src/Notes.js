@@ -75,7 +75,9 @@ const Notes = () => {
               </div>
             </>
             : <div className="alert alert-warning text-center" role="alert">
-              <p>Your notes space is empty, <a className="alert-link" onClick={() => navigate(SET_NOTE_PATH)}>click here to add one</a></p>
+              <p className="d-flex justify-content-center align-items-baseline">Your notes space is empty,
+                <button className="btn btn-link p-0" onClick={() => navigate(SET_NOTE_PATH)}> click here to add one</button>
+              </p>
             </div>
         }</>
         : <div className="d-flex justify-content-center">

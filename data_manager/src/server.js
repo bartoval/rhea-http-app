@@ -1,6 +1,5 @@
 const container = require('rhea')
 const notes = require('./notes.js')
-const AMQP_PORT = 10000
 
 let sender = null
 
@@ -37,7 +36,7 @@ container.on('message', function ({ message: { reply_to, body } }) {
   sender.send({ to: reply_to, body: data })
 })
 
-const connection = container.connect({ port: AMQP_PORT })
+const connection = container.connect({ host: process.env.RHEA_DATASTORE_HOST || 'localhost' })
 
 process.on('SIGINT', () => {
   console.log('SIGINT');

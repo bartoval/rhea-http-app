@@ -6,18 +6,18 @@ const LINK_NAME_DATA_MANAGER = 'note-store'
 const AMQP_PORT = 10000
 
 let sender = null
-var connection;
-var reply_receiver;
-var reply_addr;
+let connection;
+let reply_receiver;
+let reply_addr;
 let messageValue = false
 let retry = 0
 
 container.on('connection_open', function (context) {
   connection = context.connection;
-  reply_receiver = connection.open_receiver({source:{dynamic:true}})
+  reply_receiver = connection.open_receiver({ source: { dynamic: true } })
 })
 
-container.on('receiver_open', function(context) {
+container.on('receiver_open', function (context) {
   if (context.receiver == reply_receiver) {
     reply_addr = context.receiver.source.address;
     sender = connection.open_sender(LINK_NAME_DATA_MANAGER)
@@ -29,7 +29,7 @@ container.on('message', function ({ message }) {
   messageValue = message.body
 })
 
-const listener = container.listen({port:AMQP_PORT})
+const listener = container.listen({ port: AMQP_PORT })
 console.log(`Backend interface listening on port ${AMQP_PORT}`);
 
 function waitingMessageFromRhea(resolve, reject) {

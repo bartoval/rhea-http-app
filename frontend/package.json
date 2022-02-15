@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start-dev": "react-scripts start",
-    "build": "REACT_APP_API_HOST='http://localhost:3002' BUILD_PATH='../api/src/public' react-scripts build"
+    "build": "BUILD_PATH='../api/src/public' react-scripts build"
   },
   "eslintConfig": {
     "extends": [

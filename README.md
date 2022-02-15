@@ -1,5 +1,7 @@
 # Rhea http app demo
 
+![Design](https://user-images.githubusercontent.com/79913332/154068275-7225840e-eea0-4968-9904-1fac966562d6.png)
+
 ## Prerequisites
 
 - [Skupper router](https://github.com/skupperproject/skupper-router)

@@ -61,13 +61,13 @@ docker run --rm --name router -v <path of your config file>/qdrouterd.json:/tmp/
 
 ## How install
 
-Go into the ***frontend, api, data-manager** folder and run the command:
+Go into the **frontend, api, data-manager** folder and run the command:
 
 `npm install`
 
 ## How run
 
-Before running the application we need to create a build of the frontend app and move it into the **api/src** folder (hour http server)
+Before running the application we need to create a build of the frontend app and move it into the **api/src** folder
 
 To do that go into the **frontend** folder and run the command:
 

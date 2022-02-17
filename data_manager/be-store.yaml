@@ -1,0 +1,26 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: be-store
+  name: be-store
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: be-store
+  template:
+    metadata:
+      labels:
+        service: be-store
+    spec:
+      containers:
+        - image: quay.io/vbartoli/rhea-datastore-server
+          name: be-store
+          imagePullPolicy: Always
+          env:
+            - name: RHEA_DATASTORE_HOST
+              value: "datastore"
+            - name: RHEA_DATASTORE_PATH
+              value: "/tmp/my_datastore.json"
+      restartPolicy: Always

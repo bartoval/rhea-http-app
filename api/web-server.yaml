@@ -1,0 +1,21 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: web-server
+  name: web-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: web-server
+  template:
+    metadata:
+      labels:
+        service: web-server
+    spec:
+      containers:
+        - image: quay.io/vbartoli/rhea-api-server
+          name: web-server
+          imagePullPolicy: Always
+      restartPolicy: Always

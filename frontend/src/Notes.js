@@ -1,6 +1,7 @@
 import React, { useState, useEffect, } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { io } from "socket.io-client";
 
 import { API_HOST } from "./environment/constants"
 
@@ -17,11 +18,21 @@ const Notes = () => {
 
   async function handleDelete(id) {
     await axios.delete(`${API_HOST}/notes/${id}`)
-    fetchNotes()
   }
 
   useEffect(() => {
     fetchNotes()
+    const socket = io(API_HOST);
+
+    socket.on("notesChanged", () => {
+      socket.emit("updateNotesExceptSender", "");
+    });
+
+    socket.on("refreshNotes", () => {
+      fetchNotes()
+    });
+
+    return () => socket.disconnect();
   }, [])
 
   const renderedNotes = notes && Object.values(notes).map(({ id, title, body }) => {

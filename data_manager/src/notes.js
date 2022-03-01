@@ -2,7 +2,8 @@ const fs = require('fs')
 const chalk = require('chalk')
 const uuid = require('uuid')
 
-const FILE_PATH = './notes.json'
+const FILE_PATH = process.env.RHEA_DATASTORE_PATH || './notes.json'
+console.log('The notes are stored to: ', FILE_PATH)
 
 const addNote = (title, body) => {
   const notes = loadNotes()

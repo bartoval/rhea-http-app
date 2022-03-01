@@ -4,10 +4,13 @@ const notes = require('./notes.js')
 let sender = null
 
 const LINK_NAME_DATA_MANAGER = 'note-store'
+const SERVICE_NAME = process.env.RHEA_DATASTORE_HOST || 'localhost'
 
 container.on('connection_open', function (context) {
   sender = connection.open_sender()
   connection.open_receiver(LINK_NAME_DATA_MANAGER)
+
+  console.log('connection open', SERVICE_NAME)
 })
 
 container.on('message', function ({ message: { reply_to, body } }) {
@@ -36,7 +39,7 @@ container.on('message', function ({ message: { reply_to, body } }) {
   sender.send({ to: reply_to, body: data })
 })
 
-const connection = container.connect({ host: process.env.RHEA_DATASTORE_HOST || 'localhost' })
+const connection = container.connect({ host: SERVICE_NAME })
 
 process.on('SIGINT', () => {
   console.log('SIGINT');

@@ -241,7 +241,7 @@ kubectl delete deployment/web-server
 kubectl delete namespace web-server 
 ```
 
-Namespace `be-stpre`:
+Namespace `be-store`:
 
 ```bash
 skupper delete
@@ -249,3 +249,21 @@ kubectl delete service/be-store
 kubectl delete deployment/be-store
 kubectl delete namespace be-store 
 ```
+
+## Running services using Skupper gateway
+
+In this example we want to run locally the web-server and remotely the be-store
+
+**local environment**
+
+go in the `api` folder and run `npm run start`.
+ps: remember you need a frotend build published in the public folder
+Namespace `be-store`:
+
+```bash
+skupper gateway init
+skupper service create datastore 5672
+skupper gateway expose datastore localhost 10000
+```
+
+you can check the status running `skupper gateway status`

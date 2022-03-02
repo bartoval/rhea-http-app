@@ -9,8 +9,8 @@ export const initiateSocket = (room) => {
 }
 
 export function subscribeToUpdateNotes(callback) {
+    console.log('Client subscribed to receive notes updates')
     socket.on('refreshNotes', () => {
-        console.log('update notes from the web socket')
         callback()
     });
 }

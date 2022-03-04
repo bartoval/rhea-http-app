@@ -73,6 +73,9 @@ To do that go into the **frontend** folder and run the command:
 
 ```npm run build```
 
+**if you run your application outside the local environment remember to run the build with a custom HTTP HOST path**
+for example: `REACT_APP_API_HOST= <your http api server> npm run build`
+
 then you can go into the **api** and **data-manager** folder and run the command:
 
 `npm run start`
@@ -142,6 +145,8 @@ To run this tutorial you will need:
 
 - Two Kubernetes namespaces, from any providers you choose, on any clusters you choose
 - Two logged-in console terminals, one for each cluster or namespace
+
+before deploying the web-server, be sure that the frontend point to the right HTTP API server: `REACT_APP_API_HOST= <your http api server> npm run build`
 
 ### Step 1: Configure 2 namespaces and setup skupper
 
@@ -252,12 +257,12 @@ kubectl delete namespace be-store
 
 ## Running services using Skupper gateway
 
-In this example we want to run locally the web-server and remotely the be-store
+In this example we want to run locally the web-server and remotely the be-store.
 
 **local environment**
-
 go in the `api` folder and run `npm run start`.
-ps: remember you need a frotend build published in the public folder
+*ps: remember you need a frotend build published in the public folder*
+
 Namespace `be-store`:
 
 ```bash

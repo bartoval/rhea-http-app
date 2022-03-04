@@ -1,25 +1,25 @@
-import React from "react"
+import React from 'react'
 import {
   BrowserRouter,
   Routes,
   Route
-} from "react-router-dom"
+} from 'react-router-dom'
 
-import NoteCreate from "./NotesCreate"
-import Notes from "./Notes"
-import { APP_NAME } from "./environment/constants"
+import NoteCreate from './NotesCreate'
+import Notes from './Notes'
+import { APP_NAME } from './environment/constants'
 
 const App = () => {
   return (
     <>
-      <div className="p-3 mb-2 bg-primary bg-gradient text-white">
+      <div className='p-3 mb-2 bg-primary bg-gradient text-white'>
         <h1>{APP_NAME}</h1>
       </div>
-      <div className="container">
+      <div className='container'>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Notes />} />
-            <Route path="/rhea/note" element={<NoteCreate />} />
+            <Route path='/' element={<Notes />} />
+            <Route path='/rhea/note' element={<NoteCreate />} />
           </Routes>
         </BrowserRouter>
       </div >
